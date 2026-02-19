@@ -1,0 +1,25 @@
+{
+  "name": "hireflow",
+  "version": "1.0.0",
+  "description": "This is a job portal website",
+  "keywords": [
+    "job",
+    "portal"
+  ],
+  "license": "ISC",
+  "author": "Prashant Deshar",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "mongoose": "^9.2.1",
+    "morgan": "^1.10.1",
+    "nodemon": "^3.1.11"
+  }
+}
