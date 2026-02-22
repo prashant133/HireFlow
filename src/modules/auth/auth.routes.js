@@ -2,7 +2,7 @@ const validationMiddleware = require("../../middlewares/validate.middleware");
 const { registerValidation, loginValidation } = require("./auth.validation");
 const authController = require("../auth/auth.controller");
 
-const router = requre("express").Router();
+const router = require("express").Router();
 
 router.post(
   "/register",

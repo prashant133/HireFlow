@@ -1,6 +1,6 @@
 const ApiError = require("../utils/ApiError");
 
-const errorMiddleware = (err, res, req, next) => {
+const errorMiddleware = (err, req, res, next) => {
   console.error(err);
 
   const statusCode = err.statusCode || 500;

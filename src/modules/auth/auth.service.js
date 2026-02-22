@@ -1,6 +1,6 @@
-const asyncHandler = require("../../utils/asyncHandler");
 const ApiError = require("../../utils/ApiError");
 const User = require("../auth/user.model");
+const jwt = require("jsonwebtoken")
 
 const generateToken = (user) => {
   return jwt.sign(
@@ -10,7 +10,7 @@ const generateToken = (user) => {
   );
 };
 
-const register = asyncHandler(async (username, email, password, role) => {
+const register = async ({ username, email, password, role }) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw new ApiError(400, "User already exits");
@@ -31,17 +31,17 @@ const register = asyncHandler(async (username, email, password, role) => {
       role: user.role,
     },
   };
-});
+};
 
-const login = asyncHandler(async (email, password) => {
+const login = async ({ email, password }) => {
   const user = await User.findOne({ email });
 
   if (!user) {
     throw new ApiError(400, "Invalid credentials");
   }
 
-  const isvalidPassword = await User.isPassword(password);
-  if (!isvalidPassword) {
+  const isPasswordValid = await user.isPassword(password);
+  if (!isPasswordValid) {
     throw new ApiError(400, "Invalid password");
   }
 
@@ -56,6 +56,6 @@ const login = asyncHandler(async (email, password) => {
       role: user.role,
     },
   };
-});
+};
 
 module.exports = { register, login };

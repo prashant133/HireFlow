@@ -17,17 +17,16 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["CANDIDATE,RECRUITER"],
+      enum: ["CANDIDATE", "RECRUITER"],
       required: true,
     },
   },
-  { timeStamps: true },
+  { timestamps: true },
 );
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
 
 userSchema.methods.isPassword = async function (password) {
