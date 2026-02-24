@@ -10,7 +10,7 @@ const applyJob = async ({ jobId, candiateId }) => {
   }
 
   try {
-    console.log(candiateId)
+    // console.log(candiateId)
     const application = await Application.create({
       jobId,
       candiateId,
@@ -26,4 +26,36 @@ const applyJob = async ({ jobId, candiateId }) => {
   }
 };
 
-module.exports = { applyJob };
+const updateApplicationStatus = async ({
+  applicationId,
+  recruiterId,
+  status,
+}) => {
+  // console.log("second status", status);
+  const application = await Application.findById(applicationId);
+  // console.log(application);
+
+  if (!application) {
+    throw new ApiError(404, "Application not found");
+  }
+
+  const job = await Job.findById(application.jobId);
+
+  if (!job) {
+    throw new ApiError(404, "No job found");
+  }
+  // owership check
+  if (job.recruiterId.toString() !== recruiterId) {
+    throw new ApiError(403, "Not allowed to update this application");
+  }
+
+  // console.log(application.status)
+
+  application.status = status;
+
+  await application.save();
+  // console.log(application);
+  return application;
+};
+
+module.exports = { applyJob, updateApplicationStatus };

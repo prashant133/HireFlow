@@ -1,6 +1,7 @@
 const applicationService = require("../applications/application.service");
 const ApiResponse = require("../../utils/ApiResponse");
 const asyncHandler = require("../../utils/asyncHandler");
+const Application = require("./application.model");
 
 const applyJob = asyncHandler(async (req, res, next) => {
   const jobId = req.params.jobId;
@@ -13,4 +14,20 @@ const applyJob = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, application, "Applied Successfully"));
 });
 
-module.exports = { applyJob };
+const updateApplicationStatus = asyncHandler(async (req, res, next) => {
+  const applicationId = req.params.applicationId;
+  const recruiterId = req.user.userId;
+  const { status } = req.body;
+
+  const updated = await applicationService.updateApplicationStatus({
+    applicationId,
+    recruiterId,
+    status,
+  });
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, updated, "Application updated successfully"));
+});
+
+module.exports = { applyJob, updateApplicationStatus };
