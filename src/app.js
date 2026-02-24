@@ -3,6 +3,7 @@ const morgan = require("morgan");
 
 const authRouter = require("./modules/auth/auth.routes");
 const jobRouter = require("./modules/jobs/job.routes");
+const applicationRouter = require("./modules/applications/application.routes");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(morgan("dev"));
 
 app.use("/auth/", authRouter);
 app.use("/job/", jobRouter);
+app.use("/application", applicationRouter);
 
 const errorMiddleware = require("./middlewares/error.middleware");
 const notfound = require("./middlewares/notFound.middleware");
