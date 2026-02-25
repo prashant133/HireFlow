@@ -30,4 +30,18 @@ const updateApplicationStatus = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, updated, "Application updated successfully"));
 });
 
-module.exports = { applyJob, updateApplicationStatus };
+const viewMyApplication = asyncHandler(async (req, res, next) => {
+  const candiateId = req.user.userId;
+
+  const myApplication = await applicationService.viewMyApplication({
+    candiateId,
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, myApplication, "Application fetch successfully"),
+    );
+});
+
+module.exports = { applyJob, updateApplicationStatus, viewMyApplication };

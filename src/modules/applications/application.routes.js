@@ -26,4 +26,11 @@ router.patch(
   applicationController.updateApplicationStatus,
 );
 
+router.get(
+  "/my",
+  authMiddleware,
+  roleMiddleware("CANDIDATE"),
+  applicationController.viewMyApplication,
+);
+
 module.exports = router;

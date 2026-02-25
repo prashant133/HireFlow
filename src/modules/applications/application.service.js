@@ -58,4 +58,11 @@ const updateApplicationStatus = async ({
   return application;
 };
 
-module.exports = { applyJob, updateApplicationStatus };
+const viewMyApplication = async ({ candiateId }) => {
+  const myApplication = await Application.find({ candiateId }).sort({
+    createdAt: -1,
+  });
+  return myApplication;
+};
+
+module.exports = { applyJob, updateApplicationStatus, viewMyApplication };
