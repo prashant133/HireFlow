@@ -33,4 +33,11 @@ router.get(
   applicationController.viewMyApplication,
 );
 
+router.get(
+  "/:jobId",
+  authMiddleware,
+  roleMiddleware("RECRUITER"),
+  applicationController.viewApplicantsForJob,
+);
+
 module.exports = router;

@@ -65,4 +65,27 @@ const viewMyApplication = async ({ candiateId }) => {
   return myApplication;
 };
 
-module.exports = { applyJob, updateApplicationStatus, viewMyApplication };
+const viewApplicantsForJob = async ({ jobId, recruiterId }) => {
+  const job = await Job.findById(jobId);
+  if (!job) {
+    throw new ApiError(404, "Job not found");
+  }
+
+  // onwership check
+  if (job.recruiterId.toString() !== recruiterId) {
+    throw new ApiError(403, "Not allowed to view applicants");
+  }
+
+  const applications = await Application.find({ jobId })
+    .populate("candiateId", "username email role")
+    .sort({ createdAt: -1 });
+
+  return applications;
+};
+
+module.exports = {
+  applyJob,
+  updateApplicationStatus,
+  viewMyApplication,
+  viewApplicantsForJob,
+};

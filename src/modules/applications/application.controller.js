@@ -44,4 +44,23 @@ const viewMyApplication = asyncHandler(async (req, res, next) => {
     );
 });
 
-module.exports = { applyJob, updateApplicationStatus, viewMyApplication };
+const viewApplicantsForJob = asyncHandler(async (req, res, next) => {
+  const jobId = req.params.jobId;
+  const recruiterId = req.user.userId;
+
+  const applicants =await applicationService.viewApplicantsForJob({
+    jobId,
+    recruiterId,
+  });
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, applicants, "Applicants fetch successfully"));
+});
+
+module.exports = {
+  applyJob,
+  updateApplicationStatus,
+  viewMyApplication,
+  viewApplicantsForJob,
+};

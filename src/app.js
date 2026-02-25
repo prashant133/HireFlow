@@ -15,7 +15,7 @@ app.use(morgan("dev"));
 
 app.use("/auth/", authRouter);
 app.use("/job/", jobRouter);
-app.use("/application", applicationRouter);
+app.use("/application/", applicationRouter);
 
 const errorMiddleware = require("./middlewares/error.middleware");
 const notfound = require("./middlewares/notFound.middleware");

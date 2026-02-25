@@ -26,7 +26,7 @@ const applicationSchema = mongoose.Schema(
 );
 
 // Prevent duplicate applications
-applicationSchema.index({ jobId: 1, candidateId: 1 }, { unique: true }); // 
+applicationSchema.index({ jobId: 1, candiateId: 1 }, { unique: true }); // 
 // job1 and candiateId 1 means ascending order (sort by jodId then by candidateId)
 // this is one combined index
 
