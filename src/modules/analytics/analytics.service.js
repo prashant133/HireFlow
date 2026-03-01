@@ -40,4 +40,41 @@ const getApplicantsPerJob = async (recruiterId) => {
   ]);
 };
 
-module.exports = { getApplicantsPerJob };
+const getStatusBreakdown = async (recruiterId) => {
+  return Application.aggregate([
+    {
+      $lookup: {
+        from: "jobs",
+        localField: "jobId",
+        foreignField: "_id",
+        as: "job",
+      },
+    },
+    { $unwind: "$job" },
+
+    {
+      $match: {
+        "job.recruiterId": new mongoose.Types.ObjectId(recruiterId),
+      },
+    },
+
+    {
+      $group: {
+        _id: "$status",
+        count: { $sum: 1 },
+      },
+    },
+
+    {
+      $project: {
+        _id: 0,
+        status: "$_id",
+        count: 1,
+      },
+    },
+
+    { $sort: { count: -1 } },
+  ]);
+};
+
+module.exports = { getApplicantsPerJob, getStatusBreakdown };

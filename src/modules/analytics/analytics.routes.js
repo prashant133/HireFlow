@@ -10,4 +10,10 @@ router.get(
   analyticsController.applicantsPerJob,
 );
 
+router.get(
+  "/status-breakdown",
+  authMiddleware,
+  roleMiddleware("RECRUITER"),
+  analyticsController.getStatusBreakdown,
+);
 module.exports = router;

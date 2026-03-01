@@ -14,4 +14,14 @@ const applicantsPerJob = asyncHandler(async (req, res) => {
     );
 });
 
-module.exports = { applicantsPerJob };
+const getStatusBreakdown = asyncHandler(async (req, res, next) => {
+  const recruiterId = req.user.userId;
+
+  const data = await analyticsService.getStatusBreakdown(recruiterId);
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, data, "tatus breakdown fetched successfully"));
+});
+
+module.exports = { applicantsPerJob, getStatusBreakdown };
